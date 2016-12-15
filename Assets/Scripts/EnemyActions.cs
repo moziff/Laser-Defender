@@ -29,10 +29,27 @@ public class EnemyActions : MonoBehaviour {
 		} else {
 			transform.position += Vector3.left * enemy_speed * Time.deltaTime;
 		}
+
+		if (AllEnemiesDead()) {
+			respawnStronger ();
+		}
 	}
 
 	void OnDrawGizmos(){
 		Gizmos.DrawWireCube (transform.position, new Vector3 (width, height, 0));
+	}
+
+	bool AllEnemiesDead(){
+		foreach (Transform child in transform) {
+			if (child.transform.childCount > 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	void respawnStronger(){
+		gameObject.GetComponent<EnemySpawner> ().createUpgradedEnemy ();
 	}
 
 

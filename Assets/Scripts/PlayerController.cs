@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float speed=10.0f;
 	public float firingRate = 0.2f;
-
+	public int health = 5;
 	public GameObject laser;
 
 	float xmin;
@@ -42,5 +42,16 @@ public class PlayerController : MonoBehaviour {
 
 	void ShootLaser(){
 		Instantiate (laser, transform.position, Quaternion.identity);
+	}
+
+	void OnTriggerEnter2D(Collider2D col){
+		if (col.gameObject.GetComponent<Projectile_Enemy> ()) {
+			health -= col.gameObject.GetComponent<Projectile_Enemy> ().damage;
+			if (health <= 0) {
+				Destroy (gameObject);
+			}
+			Destroy (col.gameObject);
+		}
+
 	}
 }
